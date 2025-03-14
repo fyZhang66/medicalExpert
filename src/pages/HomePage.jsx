@@ -1,55 +1,51 @@
 import React, { useState } from "react";
 import { TypeAnimation } from "react-type-animation";
+import { useNavigate } from "react-router-dom";
+import { uploadMedicalReport } from "../api/index";
 import "./HomePage.scss";
-import logo from "../assets/logo.png";
 import upload from "../assets/upload.png";
 
 const HomePage = () => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
-  const handleUpload = (e) => {
+  const handleUpload = async (e) => {
     e.preventDefault();
     if (!file) {
-      alert("Please select a medical report image");
+      alert("Please select a medical report file");
       return;
     }
+    
     setLoading(true);
-    // TODO: Upload file to server
-    setTimeout(() => {
+    
+    try {
+      const result = await uploadMedicalReport(file);
+      
+      if (result.success) {
+        // Navigate to results page on success
+        navigate('/results', { state: { result } });
+      } else {
+        alert(`Processing failed: ${result.message}`);
+      }
+    } catch (error) {
+      alert(`Request failed: ${error.message}`);
+    } finally {
       setLoading(false);
-      alert("File uploaded successfully");
-    }, 2000);
+    }
   };
 
   return (
     <div className="home-page">
-      <header className="header">
-        <div className="container">
-          <img src={logo} alt="Logo" className="logo" />
-          <nav>
-            {/* <a href="/features">Features</a>
-            <a href="/how-it-works">How it Works</a>
-            <a href="/privacy">Privacy</a>
-            <a href="/support">Support</a>
-            <a href="/signin">Sign In</a> */}
-            <button className="get-started">Get Started</button>
-          </nav>
-        </div>
-      </header>
-
       <main className="main">
         <section className="hero">
           <h2>
             <TypeAnimation
-              sequence={[
-                "Understand Your Medical Records with Clarity",
-                1000, // 等待1秒
-              ]}
+              sequence={["Understand Your Medical Records with Clarity", 1000]}
               wrapper="span"
               speed={50}
               style={{ display: "inline-block" }}
@@ -61,10 +57,6 @@ const HomePage = () => {
             explanations. Upload your medical records and get instant
             interpretations.
           </p>
-          <div className="hero-buttons">
-            <button className="try-now">Try It Now</button>
-            {/* <button className="watch-demo">Watch Demo</button> */}
-          </div>
         </section>
 
         <section className="upload-section">
@@ -83,9 +75,12 @@ const HomePage = () => {
                 Choose File
               </label>
               {file && <p className="file-name">{file.name}</p>}
-              {/* <button type="submit" className="upload-button">
-                Upload
-              </button> */}
+              
+              {file && (
+                <button type="submit" className="upload-button" disabled={loading}>
+                  {loading ? 'processing...' : 'upload and analyze'}
+                </button>
+              )}
             </form>
           </div>
         </section>
