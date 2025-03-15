@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { askQuestion } from "../api/index";
+import { askQuestion, translateExplanation } from "../api/index";
 import { checkNull, convertDate } from "../utils/filters.js";
 import MarkdownContent from "../components/MarkdownContent";
 import Card from "../components/Card";
@@ -15,6 +15,52 @@ const ResultPage = () => {
   const [qaHistory, setQaHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // interpreter card
+  const [translationLoading, setTranslationLoading] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState("English");
+  const [translatedExplanation, setTranslatedExplanation] = useState("");
+  const [translationCache, setTranslationCache] = useState({
+    English: "",
+  });
+
+  const handleLanguageChange = async (language) => {
+    if (currentLanguage === language || !result?.explanation) return;
+
+    setTranslationLoading(true);
+    setCurrentLanguage(language);
+
+    try {
+      if (translationCache[language]) {
+        setTranslatedExplanation(translationCache[language]);
+      } else {
+       if (language === "English") {
+        setTranslatedExplanation(result.explanation);
+        setTranslationCache(prev => ({
+          ...prev,
+          English: result.explanation
+        }));
+      } else {
+        const response = await translateExplanation(result.explanation, language);
+        if (response.success) {
+          setTranslatedExplanation(response.translated_text);
+          setTranslationCache(prev => ({
+            ...prev,
+            [language]: response.translated_text
+          }));
+        } else {
+          console.error("Translation failed:", response.message);
+          setTranslatedExplanation(result.explanation);
+        }
+      }
+    }
+    } catch (error) {
+      console.error("Translation error:", error);
+      setTranslatedExplanation(result.explanation);
+    } finally {
+      setTranslationLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (result) {
       setQaHistory([
@@ -24,6 +70,11 @@ const ResultPage = () => {
         },
       ]);
     }
+    const englishExplanation = result?.explanation || "";
+    setTranslatedExplanation(englishExplanation);
+    setTranslationCache({
+      English: englishExplanation
+    });
   }, [result]);
 
   const handleQuestionSubmit = async (e) => {
@@ -126,20 +177,49 @@ const ResultPage = () => {
             <p>No test results available.</p>
           )}
           <div>
-            <MarkdownContent content={result?.test_results?.content} />
+            <MarkdownContent content={result?.original_content} />
           </div>
         </Card>
 
         <Card
           title="AI Interpretation"
           titleRight={
-            <div className="ai-confidence">
-              <span className="ai-badge">AI Powered</span>
+            <div className="language-selector">
+              <div className="ai-badge">AI Powered</div>
+              <div className="dropdown">
+                <button
+                  className="dropdown-toggle"
+                  type="button"
+                  id="languageDropdown"
+                  disabled={translationLoading}
+                >
+                  {translationLoading ? "Translating..." : currentLanguage}
+                  {/* <span className="caret"></span> */}
+                </button>
+                <ul className="dropdown-menu">
+                  <li>
+                    <button onClick={() => handleLanguageChange("English")}>
+                      English
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => handleLanguageChange("Chinese")}>
+                      中文
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => handleLanguageChange("Spanish")}>
+                      Español
+                    </button>
+                  </li>
+                </ul>
+              </div>
             </div>
           }
         >
-          <div>
-            <MarkdownContent content={result?.interpretation} />
+          <div className={translationLoading ? "content-loading" : ""}>
+            {translationLoading && <div className="loading-spinner"></div>}
+            <MarkdownContent content={translatedExplanation} />
           </div>
         </Card>
 
