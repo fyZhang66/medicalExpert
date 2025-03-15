@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from 'remark-gfm'
 import "./MarkdownContent.scss";
 
 const MarkdownContent = ({ content, className = "", maxHeight = 300 }) => {
@@ -25,7 +26,7 @@ const MarkdownContent = ({ content, className = "", maxHeight = 300 }) => {
         className={`markdown-content ${expanded ? "expanded" : "collapsed"}`}
         style={{ maxHeight: expanded ? "none" : `${maxHeight}px` }}
       >
-        <ReactMarkdown>{content || ""}</ReactMarkdown>
+        <ReactMarkdown remarkPlugins={[[remarkGfm, {singleTilde: false}]]}>{content || ""}</ReactMarkdown>
       </div>
 
       {showToggle && (

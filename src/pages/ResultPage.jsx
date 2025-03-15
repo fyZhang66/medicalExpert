@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { askQuestion } from "../api/index";
 import { checkNull, convertDate } from "../utils/filters.js";
-import MarkdownContent from '../components/MarkdownContent';
-import Card from '../components/Card';
+import MarkdownContent from "../components/MarkdownContent";
+import Card from "../components/Card";
 import "./ResultPage.scss";
 
 const ResultPage = () => {
@@ -101,6 +101,7 @@ const ResultPage = () => {
 
         {/* 示例2：带有标题右侧日期的卡片 */}
         <Card
+            className="test-results"
           title="Test Results"
           titleRight={
             <span className="results-date">
@@ -108,10 +109,15 @@ const ResultPage = () => {
             </span>
           }
         >
-          {result?.test_results?.abstractItemslength ? (
+          {result?.test_results?.abstractItems.length ? (
             result.test_results.abstractItems.map((test, index) => (
               <div key={index} className="test-item">
-                <span className="test-name">{test.name}</span>
+                <div className="test-info">
+                  <span className="test-name">{test.name}</span>
+                  <span className="test-date">
+                    Conducted on {convertDate(test.date)}
+                  </span>
+                </div>
                 <span className={`test-status ${test.status.toLowerCase()}`}>
                   {test.status}
                 </span>
@@ -123,7 +129,6 @@ const ResultPage = () => {
           <div>
             <MarkdownContent content={result?.test_results?.content} />
           </div>
-          
         </Card>
 
         {/* 示例3：带有标题右侧图标的卡片 */}
@@ -135,8 +140,11 @@ const ResultPage = () => {
             </div>
           }
         >
-          <p>{checkNull(result?.interpretation)}</p>
-          <div className="recommendations">
+          {/* <p>{checkNull(result?.interpretation)}</p> */}
+          <div>
+            <MarkdownContent content={result?.interpretation} />
+          </div>
+          {/* <div className="recommendations">
             <h4>Recommendations:</h4>
             <ul>
               {result?.recommendations?.length ? (
@@ -147,7 +155,7 @@ const ResultPage = () => {
                 <li>No recommendations available.</li>
               )}
             </ul>
-          </div>
+          </div> */}
         </Card>
 
         <Card title="Ask Questions About Your Results">
