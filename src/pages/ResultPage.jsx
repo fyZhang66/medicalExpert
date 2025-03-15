@@ -4,6 +4,7 @@ import { askQuestion } from "../api/index";
 import { checkNull, convertDate } from "../utils/filters.js";
 import MarkdownContent from "../components/MarkdownContent";
 import Card from "../components/Card";
+import Chatbot from "../components/Chatbot";
 import "./ResultPage.scss";
 
 const ResultPage = () => {
@@ -85,7 +86,6 @@ const ResultPage = () => {
   return (
     <div className="result-page">
       <div className="container">
-        {/* 示例1：带有标题右侧按钮的卡片 */}
         <Card
           title="Medical Report Summary"
           titleRight={<button className="print-btn">Print Report</button>}
@@ -99,9 +99,8 @@ const ResultPage = () => {
           </div>
         </Card>
 
-        {/* 示例2：带有标题右侧日期的卡片 */}
         <Card
-            className="test-results"
+          className="test-results"
           title="Test Results"
           titleRight={
             <span className="results-date">
@@ -131,7 +130,6 @@ const ResultPage = () => {
           </div>
         </Card>
 
-        {/* 示例3：带有标题右侧图标的卡片 */}
         <Card
           title="AI Interpretation"
           titleRight={
@@ -140,49 +138,12 @@ const ResultPage = () => {
             </div>
           }
         >
-          {/* <p>{checkNull(result?.interpretation)}</p> */}
           <div>
             <MarkdownContent content={result?.interpretation} />
           </div>
-          {/* <div className="recommendations">
-            <h4>Recommendations:</h4>
-            <ul>
-              {result?.recommendations?.length ? (
-                result.recommendations.map((rec, index) => (
-                  <li key={index}>{rec}</li>
-                ))
-              ) : (
-                <li>No recommendations available.</li>
-              )}
-            </ul>
-          </div> */}
         </Card>
 
-        <Card title="Ask Questions About Your Results">
-          <div className="qa-history">
-            {qaHistory.length ? (
-              qaHistory.map((item, index) => (
-                <div key={index} className={`qa-item ${item.type}`}>
-                  {item.text}
-                </div>
-              ))
-            ) : (
-              <p>No questions asked yet.</p>
-            )}
-          </div>
-          <form className="qa-input" onSubmit={handleQuestionSubmit}>
-            <input
-              type="text"
-              value={question}
-              onChange={(e) => setQuestion(e.target.value)}
-              placeholder="Type your question here..."
-              disabled={isLoading}
-            />
-            <button type="submit" disabled={isLoading}>
-              Send
-            </button>
-          </form>
-        </Card>
+        <Chatbot />
       </div>
     </div>
   );

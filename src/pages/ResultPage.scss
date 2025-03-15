@@ -24,30 +24,59 @@
 
     .summary-details {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
 
       .detail-item {
-        flex: 1 1 45%;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
         margin-bottom: 1rem;
 
         .label {
-          font-weight: bold;
-          color: #2c3e50;
+          color: #6b7280;
+          font-size: 0.875rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 0.875rem;
         }
 
         .value {
-          margin-left: 0.5rem;
-          color: #333;
+            margin-top: 10px;
+          flex-shrink: 0;
+          color: #000;
+          font-size: 1rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: 1rem;
         }
       }
     }
   }
+  .print-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
 
+    &:hover {
+      background-color: #2980b9;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+    }
+  }
   .test-results {
     h3 {
-      margin-bottom: 1rem;
       color: #2c3e50;
+    }
+    .results-date{
+        color: #6b7280;
     }
 
     .test-item {
@@ -65,7 +94,6 @@
         flex-direction: column;
 
         .test-name {
-          font-weight: bold;
           color: #2c3e50;
         }
 

@@ -1,16 +1,16 @@
 import React from "react";
-import "./Card.scss";
+import styles from "./Card.module.scss";
 
 const Card = ({ title, titleRight, children, className = "" }) => {
   return (
-    <div className={`card ${className}`}>
+    <div className={`${styles.card} ${className}`}>
       {(title || titleRight) && (
-        <div className="card-header">
-          {title && <h3 className="card-title-txt">{title}</h3>}
-          {titleRight && <div className="card-title-right">{titleRight}</div>}
+        <div className={styles.cardHeader}>
+          {title && <h3 className={styles.cardTitleTxt}>{title}</h3>}
+          {titleRight && <div className={styles.cardTitleRight}>{titleRight}</div>}
         </div>
       )}
-      <div className="card-content">
+      <div className={styles.cardContent}>
         {children}
       </div>
     </div>
