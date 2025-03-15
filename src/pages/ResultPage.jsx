@@ -223,7 +223,7 @@ const ResultPage = () => {
           </div>
         </Card>
 
-        <Chatbot />
+        <Chatbot reportContent={result.original_content}  />
       </div>
     </div>
   );

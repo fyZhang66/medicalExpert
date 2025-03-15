@@ -9,11 +9,11 @@ const apiClient = axios.create({
 });
 
 export const uploadMedicalReport = async (file) => {
-//   return new Promise((resolve) => {
-//     setTimeout(() => {
-//       resolve({ success: true, ...mockResult });
-//     }, 1000);
-//   });
+  //   return new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       resolve({ success: true, ...mockResult });
+  //     }, 1000);
+  //   });
   const formData = new FormData();
   formData.append("file", file);
 
@@ -46,9 +46,25 @@ export const translateExplanation = async (
   }
 };
 
-export const askQuestion = async (reportContent, question) => {
+export const askQuestion = async (reportContent, question, ragEnabled = false) => {
   try {
+    if (ragEnabled) {
+      return askRAGQuestion(reportContent, question);
+    }
     const response = await apiClient.post("/ask", {
+      report_content: reportContent,
+      question,
+    });
+    return response.data;
+  } catch (error) {
+    console.error(" query error", error);
+    throw error;
+  }
+};
+
+export const askRAGQuestion = async (reportContent, question) => {
+  try {
+    const response = await apiClient.post("/rag-enhance", {
       report_content: reportContent,
       question,
     });
