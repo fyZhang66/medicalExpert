@@ -1,55 +1,61 @@
-import axios from 'axios';
-
+import axios from "axios";
+import { mockResult } from "./mock";
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '',
+  baseURL: import.meta.env.VITE_API_BASE_URL || "",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   timeout: 30000,
 });
 
 export const uploadMedicalReport = async (file) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true, ...mockResult });
+    }, 1000);
+  });
   const formData = new FormData();
-  formData.append('file', file);
-  
+  formData.append("file", file);
+
   try {
-    const response = await apiClient.post('/upload', formData, {
+    const response = await apiClient.post("/upload", formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-      }
+        "Content-Type": "multipart/form-data",
+      },
     });
     return response.data;
   } catch (error) {
-    console.error(' upload error :', error);
+    console.error(" upload error :", error);
     throw error;
   }
 };
 
-
-export const translateExplanation = async (text, targetLanguage = 'Chinese') => {
+export const translateExplanation = async (
+  text,
+  targetLanguage = "Chinese"
+) => {
   try {
-    const response = await apiClient.post('/translate', {
+    const response = await apiClient.post("/translate", {
       text,
-      language: targetLanguage
+      language: targetLanguage,
     });
     return response.data;
   } catch (error) {
-    console.error('translate error', error);
+    console.error("translate error", error);
     throw error;
   }
 };
-
 
 export const askQuestion = async (reportContent, question) => {
   try {
-    const response = await apiClient.post('/ask', {
+    const response = await apiClient.post("/ask", {
       report_content: reportContent,
-      question
+      question,
     });
     return response.data;
   } catch (error) {
-    console.error(' query error', error);
+    console.error(" query error", error);
     throw error;
   }
 };
