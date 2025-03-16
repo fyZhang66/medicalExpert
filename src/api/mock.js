@@ -130,7 +130,11 @@ export const askMoc = {
   "question": "Give some suggests",
   "answer": "Based on your medical report content and the key findings, here are some suggestions:\n\n1. **Vital Signs:** \n   - High Body Temperature: This could be a sign of illness or infection.\n   - Elevated Systolic and Diastolic Blood Pressure: This suggests a high risk of cardiovascular disease.\n\n2. **Laboratory Test Results:** \n   - High Fasting Blood Glucose: This indicates a high risk of diabetes.\n   - Elevated Total Cholesterol, LDL and HDL Cholesterol: These are indicators of atherosclerosis.\n   - High Triglycerides: This is a risk factor for heart disease.\n\n3. **General Advice:** \n   - For the user to consult a healthcare provider for further evaluation and treatment.\n\n4. **Recommendations:** \n   - For the user to consider a diet low in saturated fats and cholesterol, along with regular exercise.\n\n5. **Follow-up:** \n   - Schedule a follow-up appointment to monitor the user's health and any changes in their condition.\n\nIt's important for the user to take these recommendations into account and seek advice from a healthcare provider."
 }
-
+export const transMoc = {
+  "success": true,
+  "translated_text": "这个医学报告是关于名叫约翰·杜的个人，他于1967年3月10日出生。他目前57岁，并且他的性别是男性的。\n\n报告包括一些重要的信息，如体温（37.0°C），收缩压和舒张压，心率和氧气饱和度。这些数值在50岁左右的年龄范围内是正常的。\n\n报告还包括从血液中提取的一些结果，包括空腹血糖（7.5 mmol/L），餐后血糖（10.2 mmol/L），总胆固醇、低密度脂蛋白胆固醇和高密度脂蛋白胆固醇的水平。\n\n总体来说，这个报告是关于个人健康状况的一个总结。它提供了一些当前的状态和可能需要解决的问题的信息。\n\n报告的写作方式清晰，令人放心。它只提供最必要的信息来理解报告的目的和对个人健康的重要性。\n\n记得，这个报告只是关于一个人的健康状况的一个总结。它并不替代定期进行医疗检查和由医生提供健康建议来确保个人的健康。\n\n总之，这个报告只是对一个人的健康状况的一个简要总结。它并不替代定期进行医疗检查和由医生提供健康建议来确保个人的健康。",
+  "language": "Chinese"
+}
 export const mockRes = {
   success: true,
   original_content:

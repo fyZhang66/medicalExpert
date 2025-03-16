@@ -1,5 +1,5 @@
 import axios from "axios";
-import { mockRes, askMoc } from "./mock";
+import { mockRes, askMoc, transMoc } from "./mock";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || "",
@@ -35,6 +35,11 @@ export const translateExplanation = async (
   text,
   targetLanguage = "Chinese"
 ) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true, ...transMoc });
+    }, 1000);
+  });
   try {
     const response = await apiClient.post("/translate", {
       text,
