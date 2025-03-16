@@ -38,7 +38,7 @@ const MatricCard = ({
     return [
       {
         value: minPos,
-        label: formatMark(min),
+        label: formatMark(min) + ' (min)',
       },
       {
         value: valuePos,
@@ -46,7 +46,7 @@ const MatricCard = ({
       },
       {
         value: maxPos,
-        label: formatMark(max),
+        label: formatMark(max) + ' (max)',
       },
     ];
   };
@@ -56,6 +56,27 @@ const MatricCard = ({
     const { displayMin, displayRange } = calculateDisplayRange(marks);
     return calculateRelativePosition(value, displayMin, displayRange);
   };
+  
+  const getThumbColor = () => {
+    const [value, min, max] = marks;
+    
+    // danger range
+    if (value < min || value > max) {
+      return '#e53935';
+    }
+    
+    const range = max - min;
+    const threshold = range * 0.1;
+    
+    // medium range
+    if (value - min < threshold || max - value < threshold) {
+      return '#f9a825';
+    }
+    // normal range
+    return '#2e7d32';
+  };
+
+  const thumbColor = getThumbColor();
 
   return (
     <div className={styles.matricBox}>
@@ -63,16 +84,44 @@ const MatricCard = ({
         <span className={styles.name}>{matricName}</span>
       </div>
       <Box sx={{ width: 300 }}>
-        <Slider
+      <Slider
           aria-label="Custom marks"
           defaultValue={getDefaultValue()}
           getAriaValueText={formatMark}
           step={1}
           min={0}
           max={100}
-          disabled={true} // 禁用拖动功能，仅作为显示用
+          disabled={true}
           valueLabelDisplay="auto"
           marks={formatMarks()}
+          sx={{
+            color: 'rgba(0,0,0,0.87)',
+            height: 4,
+            '& .MuiSlider-thumb': {
+              width: 16,
+              height: 16,
+              backgroundColor: thumbColor,
+              '&::before': {
+                boxShadow: '0 2px 12px 0 rgba(0,0,0,0.2)',
+              },
+            },
+            '& .MuiSlider-track': {
+                backgroundColor: thumbColor,
+            },
+            '& .MuiSlider-rail': {
+              opacity: 0.5,
+              backgroundColor: thumbColor,
+            },
+            '& .MuiSlider-markLabel': {
+              fontSize: '0.75rem',
+              fontWeight: 500,
+            },
+            // set value label color and bold
+            '& .MuiSlider-markLabel[data-index="1"]': {
+              color: thumbColor,
+              fontWeight: 700,
+            }
+          }}
         />
       </Box>
     </div>

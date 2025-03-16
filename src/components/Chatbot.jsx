@@ -33,8 +33,6 @@ const Chatbot = ({ reportContent }) => {
   }, [messages]);
 
   const scrollToBottom = () => {
-    console.log("scrolling------");
-    
     msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -79,7 +77,6 @@ const Chatbot = ({ reportContent }) => {
       if (response.success) {
         let fullMessage = response.answer;
 
-        // 如果使用RAG模式并且返回了references，则添加到回答中
         if (
           ragEnabled &&
           response.references &&
