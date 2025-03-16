@@ -1,5 +1,5 @@
 import axios from "axios";
-import { mockResult } from "./mock";
+import { mockRes } from "./mock";
 
 const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || "",
@@ -9,11 +9,11 @@ const apiClient = axios.create({
 });
 
 export const uploadMedicalReport = async (file) => {
-  //   return new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       resolve({ success: true, ...mockResult });
-  //     }, 1000);
-  //   });
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ success: true, ...mockRes });
+      }, 1000);
+    });
   const formData = new FormData();
   formData.append("file", file);
 

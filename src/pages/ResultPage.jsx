@@ -5,7 +5,21 @@ import { checkNull, convertDate } from "../utils/filters.js";
 import MarkdownContent from "../components/MarkdownContent";
 import Card from "../components/Card";
 import Chatbot from "../components/Chatbot";
+// import Slider from "@mui/material/Slider";
+import MatricCard from "../components/MatricCard";
+
 import "./ResultPage.scss";
+
+// const marks = [
+//   {
+//     value: 0,
+//     label: "0°C",
+//   },
+//   {
+//     value: 20,
+//     label: "20°C",
+//   },
+// ];
 
 const ResultPage = () => {
   const location = useLocation();
@@ -33,26 +47,29 @@ const ResultPage = () => {
       if (translationCache[language]) {
         setTranslatedExplanation(translationCache[language]);
       } else {
-       if (language === "English") {
-        setTranslatedExplanation(result.explanation);
-        setTranslationCache(prev => ({
-          ...prev,
-          English: result.explanation
-        }));
-      } else {
-        const response = await translateExplanation(result.explanation, language);
-        if (response.success) {
-          setTranslatedExplanation(response.translated_text);
-          setTranslationCache(prev => ({
+        if (language === "English") {
+          setTranslatedExplanation(result.explanation);
+          setTranslationCache((prev) => ({
             ...prev,
-            [language]: response.translated_text
+            English: result.explanation,
           }));
         } else {
-          console.error("Translation failed:", response.message);
-          setTranslatedExplanation(result.explanation);
+          const response = await translateExplanation(
+            result.explanation,
+            language
+          );
+          if (response.success) {
+            setTranslatedExplanation(response.translated_text);
+            setTranslationCache((prev) => ({
+              ...prev,
+              [language]: response.translated_text,
+            }));
+          } else {
+            console.error("Translation failed:", response.message);
+            setTranslatedExplanation(result.explanation);
+          }
         }
       }
-    }
     } catch (error) {
       console.error("Translation error:", error);
       setTranslatedExplanation(result.explanation);
@@ -73,7 +90,7 @@ const ResultPage = () => {
     const englishExplanation = result?.explanation || "";
     setTranslatedExplanation(englishExplanation);
     setTranslationCache({
-      English: englishExplanation
+      English: englishExplanation,
     });
   }, [result]);
 
@@ -159,18 +176,10 @@ const ResultPage = () => {
             </span>
           }
         >
-          {result?.test_results?.abstractItems.length ? (
-            result.test_results.abstractItems.map((test, index) => (
-              <div key={index} className="test-item">
-                <div className="test-info">
-                  <span className="test-name">{test.name}</span>
-                  <span className="test-date">
-                    Conducted on {convertDate(test.date)}
-                  </span>
-                </div>
-                <span className={`test-status ${test.status.toLowerCase()}`}>
-                  {test.status}
-                </span>
+          {result?.abstractItems.length ? (
+            result.abstractItems.map((test, index) => (
+              <div key={test.name} className="test-item">
+                <MatricCard matricName={test.name} marks={test.value} />
               </div>
             ))
           ) : (
@@ -223,7 +232,7 @@ const ResultPage = () => {
           </div>
         </Card>
 
-        <Chatbot reportContent={result.original_content}  />
+        <Chatbot reportContent={result.original_content} />
       </div>
     </div>
   );

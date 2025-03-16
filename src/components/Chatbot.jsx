@@ -25,11 +25,16 @@ const Chatbot = ({ reportContent }) => {
   };
 
   const msgEndRef = useRef(null);
+
   useEffect(() => {
+    // there's one message already
+    if(messages.length === 1) return;
     scrollToBottom();
   }, [messages]);
 
   const scrollToBottom = () => {
+    console.log("scrolling------");
+    
     msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -39,12 +44,12 @@ const Chatbot = ({ reportContent }) => {
     }
 
     let markdown = "\n\n### References\n\n";
-    
+
     references.forEach((ref, index) => {
       markdown += `- **${ref.title}**\n\n`;
       markdown += `<details>\n<summary>View content</summary>\n\n${ref.content}\n\n</details>\n\n`;
     });
-    
+
     return markdown;
   };
 
@@ -73,15 +78,21 @@ const Chatbot = ({ reportContent }) => {
       const response = await askQuestion(reportContent, message, ragEnabled);
       if (response.success) {
         let fullMessage = response.answer;
-        
+
         // 如果使用RAG模式并且返回了references，则添加到回答中
-        if (ragEnabled && response.references && Array.isArray(response.references)) {
-          const referencesMarkdown = formatReferencesToMarkdown(response.references);
+        if (
+          ragEnabled &&
+          response.references &&
+          Array.isArray(response.references)
+        ) {
+          const referencesMarkdown = formatReferencesToMarkdown(
+            response.references
+          );
           fullMessage = response.enhanced_explanation + referencesMarkdown;
         } else if (ragEnabled && response.enhanced_explanation) {
           fullMessage = response.enhanced_explanation;
         }
-        
+
         sendBotMessage(fullMessage);
       } else {
         sendBotMessage("Sorry, I cannot understand your question.");
@@ -169,7 +180,11 @@ const Chatbot = ({ reportContent }) => {
               </div>
             ) : (
               <div className={`message-content ${message.sender}`}>
-                <MarkdownContent content={message.message} showAll={true} maxHeight={"none"} />
+                <MarkdownContent
+                  content={message.message}
+                  showAll={true}
+                  maxHeight={"none"}
+                />
               </div>
             )}
             {message.sender === "user" && (
