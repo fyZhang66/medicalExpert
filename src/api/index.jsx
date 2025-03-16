@@ -2,7 +2,8 @@ import axios from "axios";
 import { mockRes } from "./mock";
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "",
+  // baseURL: import.meta.env.VITE_API_BASE_URL || "",
+  baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
   },
