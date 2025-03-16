@@ -144,7 +144,7 @@ const ResultPage = () => {
     <div className="result-page">
       <div className="container">
         <Card
-          title="Medical Report Summary"
+          title="Key Matrics"
           className="report-summary"
         >
           {result?.indicators ? (
@@ -166,7 +166,7 @@ const ResultPage = () => {
 
         <Card
           className="test-results"
-          title="Test Results"
+          title="Medical Summary"
           titleRight={
             <span className="results-date">
               Results as of {convertDate(result?.report_date)}

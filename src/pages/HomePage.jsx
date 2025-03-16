@@ -62,7 +62,7 @@ const HomePage = () => {
         <section className="upload-section">
           <div className="upload-box">
             <h3>Upload Your Medical Record</h3>
-            <p>Supported formats: PDF, JPG, PNG (Max size: 10MB)</p>
+            <p>Supported formats: JPG, PNG (Max size: 10MB)</p>
             <form onSubmit={handleUpload}>
               <input
                 type="file"
