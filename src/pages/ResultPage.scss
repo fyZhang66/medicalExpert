@@ -16,6 +16,52 @@
   }
 
   .report-summary {
+    .test-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        background-color: #f9fafb;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  
+        .test-info {
+          display: flex;
+          flex-direction: column;
+  
+          .test-name {
+            color: #2c3e50;
+          }
+  
+          .test-date {
+            font-size: 0.875rem;
+            color: #6b7280;
+          }
+        }
+  
+        .test-status {
+          padding: 0.1rem 1rem;
+          border-radius: 12px;
+          text-align: center;
+          font-size: 0.875rem;
+  
+          &.normal {
+            background-color: #d1fae5;
+            color: #065f46;
+          }
+  
+          &.borderline {
+            background-color: #fef3c7;
+            color: #92400e;
+          }
+  
+          &.abnormal {
+            background-color: #fee2e2;
+            color: #b91c1c;
+          }
+        }
+      }
     h2 {
       text-align: center;
       margin-bottom: 1rem;
@@ -79,52 +125,7 @@
         color: #6b7280;
     }
 
-    .test-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      margin-bottom: 1rem;
-      background-color: #f9fafb;
-      border-radius: 8px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-
-      .test-info {
-        display: flex;
-        flex-direction: column;
-
-        .test-name {
-          color: #2c3e50;
-        }
-
-        .test-date {
-          font-size: 0.875rem;
-          color: #6b7280;
-        }
-      }
-
-      .test-status {
-        padding: 0.1rem 1rem;
-        border-radius: 12px;
-        text-align: center;
-        font-size: 0.875rem;
-
-        &.normal {
-          background-color: #d1fae5;
-          color: #065f46;
-        }
-
-        &.borderline {
-          background-color: #fef3c7;
-          color: #92400e;
-        }
-
-        &.abnormal {
-          background-color: #fee2e2;
-          color: #b91c1c;
-        }
-      }
-    }
+    
   }
 
   .ai-interpretation {

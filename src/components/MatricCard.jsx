@@ -58,6 +58,8 @@ const MatricCard = ({
   };
   
   const getThumbColor = () => {
+    // offset of medium range
+    const MEDIUM_OFFSET = 0.2;
     const [value, min, max] = marks;
     
     // danger range
@@ -66,7 +68,7 @@ const MatricCard = ({
     }
     
     const range = max - min;
-    const threshold = range * 0.1;
+    const threshold = range * MEDIUM_OFFSET;
     
     // medium range
     if (value - min < threshold || max - value < threshold) {

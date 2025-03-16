@@ -159,12 +159,21 @@ const ResultPage = () => {
           titleRight={<button className="print-btn">Print Report</button>}
           className="report-summary"
         >
-          <div className="summary-details">
-            {renderField("Patient Name", result?.patient_name)}
-            {renderField("Date of Birth", result?.date_of_birth, convertDate)}
-            {renderField("Patient ID", result?.patient_id)}
-            {renderField("Report Date", result?.report_date, convertDate)}
-          </div>
+          {result?.indicators ? (
+            <div className="indicators-grid">
+              {Object.entries(result.indicators).map(([name, values]) => (
+                <div key={name} className="test-item">
+                  <MatricCard
+                    matricName={name}
+                    marks={values}
+                    formatMark={(value) => value.toFixed(1)}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No test results available.</p>
+          )}
         </Card>
 
         <Card
@@ -176,15 +185,6 @@ const ResultPage = () => {
             </span>
           }
         >
-          {result?.abstractItems.length ? (
-            result.abstractItems.map((test, index) => (
-              <div key={test.name} className="test-item">
-                <MatricCard matricName={test.name} marks={test.value} />
-              </div>
-            ))
-          ) : (
-            <p>No test results available.</p>
-          )}
           <div>
             <MarkdownContent content={result?.original_content} />
           </div>
