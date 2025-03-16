@@ -1,20 +1,20 @@
 import axios from "axios";
-import { mockRes } from "./mock";
+import { mockRes, askMoc } from "./mock";
 
 const apiClient = axios.create({
-  // baseURL: import.meta.env.VITE_API_BASE_URL || "",
-  baseURL: "/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "",
+  // baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 export const uploadMedicalReport = async (file) => {
-    // return new Promise((resolve) => {
-    //   setTimeout(() => {
-    //     resolve({ success: true, ...mockRes });
-    //   }, 1000);
-    // });
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ success: true, ...mockRes });
+      }, 1000);
+    });
   const formData = new FormData();
   formData.append("file", file);
 
@@ -48,6 +48,11 @@ export const translateExplanation = async (
 };
 
 export const askQuestion = async (reportContent, question, ragEnabled = false) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true, ...askMoc });
+    }, 1000);
+  });
   try {
     if (ragEnabled) {
       return askRAGQuestion(reportContent, question);
