@@ -9,11 +9,11 @@ const apiClient = axios.create({
 });
 
 export const uploadMedicalReport = async (file) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ success: true, ...mockRes });
-      }, 1000);
-    });
+    // return new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     resolve({ success: true, ...mockRes });
+    //   }, 1000);
+    // });
   const formData = new FormData();
   formData.append("file", file);
 

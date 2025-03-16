@@ -5,21 +5,10 @@ import { checkNull, convertDate } from "../utils/filters.js";
 import MarkdownContent from "../components/MarkdownContent";
 import Card from "../components/Card";
 import Chatbot from "../components/Chatbot";
-// import Slider from "@mui/material/Slider";
 import MatricCard from "../components/MatricCard";
 
 import "./ResultPage.scss";
 
-// const marks = [
-//   {
-//     value: 0,
-//     label: "0°C",
-//   },
-//   {
-//     value: 20,
-//     label: "20°C",
-//   },
-// ];
 
 const ResultPage = () => {
   const location = useLocation();
@@ -156,7 +145,6 @@ const ResultPage = () => {
       <div className="container">
         <Card
           title="Medical Report Summary"
-          titleRight={<button className="print-btn">Print Report</button>}
           className="report-summary"
         >
           {result?.indicators ? (
