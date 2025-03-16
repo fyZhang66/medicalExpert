@@ -39,7 +39,7 @@ Medical Expert is an innovative AI-driven application designed to help users und
 
 - Frontend: React + Vite
 - UI Components: Custom Card, MatricCard, Markdown rendering components
-- API Integration: Custom RESTful API services
+- API Integration: Use RESTful API services provided by the [backend services](https://github.com/zysea23/medical-report-interpreter)
 - AI Technology: Large language models for text analysis and Q&A
 
 ## Installation & Setup
